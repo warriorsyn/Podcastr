@@ -1,5 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from "next"
 import Image from 'next/image';
+import Link from 'next/link';
+
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -45,11 +47,12 @@ export default function Episode({ episode }: EpisodeProps) {
     return (
        <div className={styles.episode}>
            <div className={styles.thumbnailContainer}>
-               <button type="button">
-                   <img src="/arrow-left.svg" alt="Voltar"/>
-               </button>
-
-               <Image width={700} height={160} src={episode.thumbnail} alt="Thumbnail" objectFit="cover"/>
+                <Link href='/'>
+                    <button type="button">
+                    <img src="/arrow-left.svg" alt="Voltar"/>
+                </button>
+                </Link>
+                <Image width={700} height={160} src={episode.thumbnail} alt="Thumbnail" objectFit="cover"/>
                 <button>
                     <img src="/play.svg" alt="Tocar episódio"/>
                 </button>
@@ -73,6 +76,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         fallback: 'blocking'
     }
 }
+
 export const getStaticProps: GetStaticProps = async (context) => {
     const { slug } = context.params;
 

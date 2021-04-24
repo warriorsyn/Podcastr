@@ -8,6 +8,8 @@ import ptBR from 'date-fns/locale/pt-BR';
 import { api } from "../services/api";
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
 import styles from './home.module.scss';
+import { useContext } from "react";
+import { playerContext } from "../context/PlayerContext";
 
 interface File {
   url: string;
@@ -25,7 +27,7 @@ interface EpisodesResponse {
   file: File;
 }
 
-interface EspiodesFormated {
+interface EpisodesFormated {
   id: string;
   title: string;
   members: string;
@@ -40,11 +42,13 @@ interface EspiodesFormated {
 
 
 type HomeProps = {
-  latestEpisodes: EspiodesFormated[],
-  allEpisodes: EspiodesFormated[]
+  latestEpisodes: EpisodesFormated[],
+  allEpisodes: EpisodesFormated[]
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
+  const { play } = useContext(playerContext);
+
   return (
    <div className={styles.homepage}>
      <section className={styles.latestEpisodes}> 
@@ -101,7 +105,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                 <td style={{ width: 100 }}>{episode.publishedAt}</td>
                 <td>{episode.durationAsString}</td>
                 <td>
-                  <button>
+                  <button onClick={() => play(episode)}>
                     <img src="/play-green.svg" alt="Tocar episódio"/>
                   </button>
                 </td>
